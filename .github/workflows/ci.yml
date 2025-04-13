@@ -1,5 +1,6 @@
 name: CI/CD Pipeline
 
+# Trigger the workflow when there is a push to the `main` branch
 on:
   push:
     branches:
@@ -7,24 +8,29 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # The operating system for the runner
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      # Step 2: Set up Docker Buildx (optional, if you need Docker Buildx for your builds)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      # Step 3: Log in to Docker Hub using GitHub secrets
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Build Docker image
-      run: docker build -t gayatrimishraa/typing-test .
+      # Step 4: Build the Docker image
+      - name: Build Docker image
+        run: docker build -t gayatrimishraa/typing-test:latest .
 
-    - name: Push Docker image to Docker Hub
-      run: docker push gayatrimishraa/typing-test
+      # Step 5: Push the Docker image to Docker Hub
+      - name: Push Docker image to Docker Hub
+        run: docker push gayatrimishraa/typing-test:latest
 
-    - name: Run system test
-      run: |
-        docker run gayatrimishraa/typing-test python test_script.py
+      # Step 6: Run tests (if needed)
+      - name: Run tests
+        run: docker run gayatrimishraa/typing-test python /usr/share/nginx/html/test_script.py
