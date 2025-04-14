@@ -29,7 +29,3 @@ jobs:
       run: |
         chmod +x test_container.sh
         ./test_container.sh
-<<<<<<< HEAD
-
-=======
->>>>>>> a36742b8ffd01a403ac7ea1abef83bd36fb57c92
