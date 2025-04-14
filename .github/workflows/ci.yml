@@ -20,13 +20,12 @@ jobs:
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Build Docker image
-      run: docker build -t gayatrimishraa/typing-test .
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/typing-test .
 
     - name: Push Docker image to Docker Hub
-      run: docker push gayatrimishraa/typing-test
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/typing-test
 
     - name: Run system test
       run: |
         chmod +x test_container.sh
         ./test_container.sh
-# Dummy commit to trigger workflow
