@@ -24,3 +24,8 @@ jobs:
 
     - name: Push Docker image to Docker Hub
       run: docker push gayatrimishraa/typing-test
+
+    - name: Run system test
+      run: |
+        chmod +x test_container.sh
+        ./test_container.sh
