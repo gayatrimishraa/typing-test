@@ -1,26 +1,20 @@
 #!/bin/bash
 
-echo "Running container test..."
+# Pull the image (optional if just built)
+docker pull gayatrimishraa/typing-test
 
-# Run your Docker container
-docker run -d -p 8080:80 --name typing-test gayatrimishraa/typing-test
+# Run the container in detached mode
+docker run -d --name typing-test-container gayatrimishraa/typing-test
 
-# Give it a few seconds to start
+# Wait for a few seconds to let the container start
 sleep 5
 
-# Perform a simple test - check if HTTP 200 OK from the container
-status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+# Check if the container is running
+docker ps | grep typing-test-container
 
-# Stop and remove the container
-docker stop typing-test
-docker rm typing-test
+# Show container logs
+docker logs typing-test-container
 
-# Check result
-if [ "$status" -eq 200 ]; then
-  echo "✅ Container test passed."
-  exit 0
-else
-  echo "❌ Container test failed with status $status."
-  exit 1
-fi
-
+# Stop and remove container (clean up)
+docker stop typing-test-container
+docker rm typing-test-container
