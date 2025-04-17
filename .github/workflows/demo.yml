@@ -1,7 +1,0 @@
-name: Live Demo
-on: [push]
-jobs:
-  demo:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Your typing test is LIVE! $(date)"
